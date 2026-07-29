@@ -1,0 +1,19 @@
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - synchronize
+      - reopened
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate Jira tickets in PR title
+        env:
+          PR_TITLE: "${{ github.event.pull_request.title }}"
+        run: |
+          if [[ ! "$PR_TITLE" =~ ^TRF-[0-9]+ ]]; then
+            echo "PR title MUST start with a JIRA ticket [e.g, TRF-1234]"
+          fi
