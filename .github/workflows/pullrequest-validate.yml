@@ -8,12 +8,13 @@ on:
 
 jobs:
   validate:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
     steps:
       - name: Validate Jira tickets in PR title
-        env:
-          PR_TITLE: "${{ github.event.pull_request.title }}"
         run: |
+          which gh
+          # fetch PR title dynamically
+          PR_TITLE="$(gh pr view ${{ github.event.pull_request.number }} --repo ${{ github.repository }} --json title --jq '.title')"
           if [[ ! "$PR_TITLE" =~ ^TRF-[0-9]+ ]]; then
             echo "::error::PR title MUST start with a JIRA ticket [e.g, TRF-1234]"
             echo "::notice::To fix: 1. Update title, and 2. push a new commit, or close+reopen the PR"
