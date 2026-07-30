@@ -15,6 +15,7 @@ jobs:
           PR_TITLE: "${{ github.event.pull_request.title }}"
         run: |
           if [[ ! "$PR_TITLE" =~ ^TRF-[0-9]+ ]]; then
-            echo "PR title MUST start with a JIRA ticket [e.g, TRF-1234]"
+            echo "::error::PR title MUST start with a JIRA ticket [e.g, TRF-1234]"
+            echo "::notice::To fix: 1. Update title, and 2. push a new commit, or close+reopen the PR"
             exit 1
           fi
