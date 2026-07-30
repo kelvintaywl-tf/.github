@@ -11,6 +11,8 @@ jobs:
     runs-on: ubuntu-slim
     steps:
       - name: Validate Jira tickets in PR title
+        env:
+          GH_TOKEN: "${{ github.token }}"
         run: |
           which gh
           # fetch PR title dynamically
